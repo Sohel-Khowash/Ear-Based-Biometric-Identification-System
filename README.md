@@ -38,8 +38,6 @@ Unknown identities were completely excluded from training and used only during t
 
 ### Initial Model – EmbeddingNet
 
-![EmbeddingNet](images/embeddingnet.png)
-
 - Custom CNN architecture
 - Softmax Loss
 - KNN/SVM classifier
@@ -117,8 +115,6 @@ The learned embeddings form compact clusters for known identities while unknown 
 - Unknown Detection = **94.33%**
 
 ## Performance Comparison
-
-![Performance Comparison](images/performance_table.png)
 
 | Model | Backbone | Known Accuracy | Unknown Detection |
 |--------|-----------|---------------|-------------------|
