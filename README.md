@@ -1,70 +1,167 @@
-### 1. Initial Approach: Custom EmbeddingNet
-* **Architecture:** Custom 2D CNN with $128 \\times 128 \\times 1$ input, `Conv2D` + `ReLU` layers, `MaxPooling`, Flatten, and Dense embedding layers [cite: 1].
-* **Loss:** Softmax / Cross-Entropy [cite: 1].
-* **Classifier:** KNN / SVM on extracted features [cite: 1].
-* **Performance:** 88–92% Known Class Accuracy, ~30% Unknown Detection Rate [cite: 1].
-* **Limitation:** Poor open-set generalization and high false-positive rate for unknown classes [cite: 1].
+# 3D Ear Recognition using Deep Learning
 
-### 2. Intermediate Approach: EfficientNet-B0
-* **Architecture:** Replaced custom CNN backbone with **EfficientNet-B0** [cite: 1].
-* **Performance:** 90–94% Known Class Accuracy, ~45% Unknown Detection Rate [cite: 1].
-* **Improvement:** Better representation learning and feature abstraction [cite: 1].
+An open-set biometric recognition system capable of identifying known individuals while reliably rejecting unseen identities using deep metric learning.
 
-### 3. Final Approach: TripletNet (Metric Learning)
-* **Loss Function:** **Triplet Loss** to enforce intra-class cohesion and inter-class separation in a 512-dimensional feature embedding space [cite: 1].
-* **Embeddings:** 512-D vector output [cite: 1].
-* **Post-Embedding Classifiers Evaluated:** K-Nearest Neighbors (KNN), Support Vector Machines (SVM), and Logistic Regression using Euclidean and Cosine distances [cite: 1].
+The project progressively evolved from a custom CNN to EfficientNet-B0 and finally to a Triplet Network with ensemble-based unknown detection.
 
 ---
 
-## 🔍 Unknown / Open-Set Detection Strategies
+## Features
 
-To address open-set recognition where unseen identities enter the system, multiple detection strategies were evaluated [cite: 1]:
+- Open-set biometric recognition
+- EfficientNet-B0 feature extraction
+- Triplet Loss metric learning
+- 512-dimensional embedding generation
+- KNN, SVM and Logistic classifiers
+- One-Class SVM based anomaly detection
+- Isolation Forest anomaly detection
+- Ensemble voting for unknown detection
+- 96–97% known class accuracy
+- 94.33% unknown detection rate
 
-1. **Plain Softmax Thresholding:**
-   * Threshold set at 0.70 confidence [cite: 1].
-   * Yielded only **18%** unknown detection [cite: 1].
-2. **Tuned Confidence Thresholding:**
-   * Optimized threshold set at **0.83** [cite: 1].
-   * Improved unknown detection rate to **~60%** [cite: 1].
-3. **Distance-Based Thresholding:**
-   * Nearest-neighbor distance cutoff at **0.50** [cite: 1].
-   * Yielded high discrimination for distant feature representations [cite: 1].
-4. **Unsupervised Outlier Detection:**
-   * **One-Class SVM:** Boundary learning achieved **89%** unknown detection [cite: 1].
-   * **Isolation Forest:** Anomaly isolation achieved **55%** unknown detection [cite: 1].
-5. **Final Ensemble Detection (Majority Vote):**
-   * Combines Confidence Thresholding, Distance Thresholding, One-Class SVM, and Isolation Forest [cite: 1].
-   * Achieved an impressive **94.33% Unknown Detection Rate** [cite: 1].
+## Dataset
+
+- 2,600 ear images
+- 13 identity groups
+- Training Images: 1480
+- Validation Images: 520
+- Testing Images: 600
+
+Unknown identities were completely excluded from training and used only during testing to evaluate open-set recognition.
+
+
+## Project Pipeline
+
+![Pipeline](images/pipeline.png)
+
+## Model Evolution
+
+### Initial Model – EmbeddingNet
+
+![EmbeddingNet](images/embeddingnet.png)
+
+- Custom CNN architecture
+- Softmax Loss
+- KNN/SVM classifier
+- Known Accuracy: 88–92%
+- Unknown Detection: ~30%
 
 ---
 
-## 📈 Performance Summary
+### EfficientNet-B0
 
-| Model Version | Backbone | Loss Function | Classifiers | Known Accuracy | Unknown Detection Rate |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **EmbeddingNet** | Custom CNN | Softmax | KNN / SVM | 88–92% | ~30% |
-| **EfficientNet** | EfficientNet-B0 | Softmax | KNN / SVM | 90–94% | ~45% |
-| **TripletNet (Final)** | EfficientNet-B0 | Triplet Loss | KNN, SVM, Logistic | **96–97%** | **94.33% (Ensemble)** |
-
----
-
-## 🛠️ Tech Stack & Tools
-
-* **Frameworks & Deep Learning:** PyTorch, Torchvision, Albumentations [cite: 1]
-* **Machine Learning & Anomaly Detection:** Scikit-Learn (KNN, SVM, One-Class SVM, Isolation Forest, Logistic Regression) [cite: 1]
-* **Visualization & Analysis:** Matplotlib, Seaborn, t-SNE [cite: 1]
+- Better feature extraction
+- Improved generalization
+- Known Accuracy: 90–94%
+- Unknown Detection: ~45%
 
 ---
 
-## 🚀 Key Takeaways & Conclusion
+### Final Model – TripletNet
 
-* **Metric Learning Matters:** Shifting to Triplet Loss allowed the network to learn a highly discriminative 512-D embedding space, forming tight clusters for known identities and widely separated regions for unknowns [cite: 1].
-* **Pretrained Backbones:** EfficientNet-B0 drastically accelerated feature extraction convergence and enhanced overall system generalization [cite: 1].
-* **Ensemble for Open-Set AI:** Combining confidence, distance metrics, One-Class SVM, and Isolation Forest delivered robust rejection of unseen identities, making the system suitable for real-world biometric deployment [cite: 1].
-"""
+- EfficientNet-B0 Backbone
+- Triplet Loss
+- 512-D embeddings
+- KNN, SVM, Logistic Regression
 
-with open("README.md", "w") as f:
-    f.write(readme_content.strip())
+## Training Curves
 
-print("README.md file created successfully.")
+![Accuracy curve](images/accuracy_vs_epoch.png)
+![Loss curve](images/loss_vs_epoch.png)
+
+Training converged rapidly with testing accuracy stabilizing around **96–97%** while maintaining a very low loss value.
+
+## Classification Report
+
+![Classification Report](images/Classification_Report.png
+
+## Confusion Matrix
+
+![Confusion Matrix](images/confusion_matrix.png)
+
+The confusion matrix demonstrates excellent classification performance with only a few isolated misclassifications.
+
+## Learned Feature Space
+
+![t-SNE](images/tsne.png)
+
+The learned embeddings form compact clusters for known identities while unknown identities remain well separated, validating the effectiveness of metric learning.
+
+## Unknown Detection Strategies
+
+### Softmax Threshold
+
+- Threshold = 0.70
+- Detection = 18%
+
+### Confidence Threshold
+
+- Threshold = 0.83
+- Detection = 60%
+
+### Distance Threshold
+
+- Euclidean Distance = 0.50
+
+### One-Class SVM
+
+- Detection = 89%
+
+### Isolation Forest
+
+- Detection = 55%
+
+### Final Ensemble
+
+- Majority Voting
+- Unknown Detection = **94.33%**
+
+## Performance Comparison
+
+![Performance Comparison](images/performance_table.png)
+
+| Model | Backbone | Known Accuracy | Unknown Detection |
+|--------|-----------|---------------|-------------------|
+| EmbeddingNet | Custom CNN | 88–92% | 30% |
+| EfficientNet | EfficientNet-B0 | 90–94% | 45% |
+| TripletNet | EfficientNet-B0 | **96–97%** | **94.33%** |
+
+## Tech Stack
+
+### Deep Learning
+- PyTorch
+- Torchvision
+- Albumentations
+
+### Machine Learning
+- Scikit-Learn
+- KNN
+- SVM
+- Logistic Regression
+- One-Class SVM
+- Isolation Forest
+
+### Visualization
+- Matplotlib
+- Seaborn
+- t-SNE
+
+## Results
+
+✔ Known Class Accuracy: **96–97%**
+
+✔ Unknown Detection Rate: **94.33%**
+
+✔ Robust Open-Set Recognition
+
+✔ High Feature Discrimination
+
+✔ Strong Generalization to Unseen Identities
+
+## Future Work
+
+- ArcFace-based metric learning
+- Vision Transformer backbone
+- Real-time inference optimization
+- Deployment using ONNX/TensorRT
+- Larger biometric datasets
