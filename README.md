@@ -32,7 +32,9 @@ Unknown identities were completely excluded from training and used only during t
 
 ## Project Pipeline
 
-![Pipeline](images/pipeline.png)
+<p>
+  <img src ="images/pipeline.png" width="450" height="600">
+</p>
 
 ## Model Evolution
 
@@ -64,24 +66,31 @@ Unknown identities were completely excluded from training and used only during t
 
 ## Training Curves
 
-![Accuracy curve](images/accuracy_vs_epoch.png)
-![Loss curve](images/loss_vs_epoch.png)
+<p align="center">
+  <img src="images/accuracy_vs_epoch.png" width="450" height="300">
+<img src="images/loss_vs_epoch.png" width="450" height="300">
+</p>
 
 Training converged rapidly with testing accuracy stabilizing around **96–97%** while maintaining a very low loss value.
 
 ## Classification Report
 
-![Classification Report](images/Classification_Report.png
+<p align="center">
+  <img src="images/Classification_Report.png" width="450" height="300">
+</p>
 
 ## Confusion Matrix
 
-![Confusion Matrix](images/confusion_matrix.png)
-
+<p align ="center">
+<img src="images/confusion_matrix.png" width="450" height="300">
+</p>
 The confusion matrix demonstrates excellent classification performance with only a few isolated misclassifications.
 
 ## Learned Feature Space
 
-![t-SNE](images/tsne.png)
+<p align ="center">
+<img src="images/tsne.png" width="450" height="300">
+</p>
 
 The learned embeddings form compact clusters for known identities while unknown identities remain well separated, validating the effectiveness of metric learning.
 
