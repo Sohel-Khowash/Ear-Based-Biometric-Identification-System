@@ -1,5 +1,4 @@
 # 3D Ear Recognition using Deep Learning
-
 An open-set biometric recognition system capable of identifying known individuals while reliably rejecting unseen identities using deep metric learning.
 
 The project progressively evolved from a custom CNN to EfficientNet-B0 and finally to a Triplet Network with ensemble-based unknown detection.
